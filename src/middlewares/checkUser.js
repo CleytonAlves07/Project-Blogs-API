@@ -5,7 +5,7 @@ const alreadyExist = async (email) => {
   if (exist) {
     return {
       status: 409,
-      data: 'User already registered',
+      message: 'User already registered',
     };
   }
   return true;
