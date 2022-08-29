@@ -67,6 +67,7 @@ describe(requirements[2].description, () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
+        // console.log(result, body, 'Tudão');
         expect(result.message).toBe('Invalid fields');
       });
   });
