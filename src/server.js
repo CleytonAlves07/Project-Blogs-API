@@ -9,4 +9,9 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+// ({ include: [
+// { model: Team, as: 'teamHome', attributes: ['teamName'] },
+// { model: Team, as: 'teamAway', attributes: ['teamName'] },
+// ] }); 
+
 app.listen(port, () => console.log('ouvindo porta', port));

@@ -3,7 +3,7 @@ const alreadyExist = require('../middlewares/checkUser');
 const schema = require('../helper/joiSchema');
 const jwtService = require('./jwtService');
 
-const userService = async (displayName, email, password, image) => {
+const createUserService = async (displayName, email, password, image) => {
   const isValid = schema.validate({ displayName, email, password });
   if (isValid.error) {
     return {
@@ -21,4 +21,16 @@ const userService = async (displayName, email, password, image) => {
   };
 };
 
-module.exports = userService;
+const getAllUserService = async () => {
+  const users = await User.findAll({ attributes: { exclude: 'password' } });
+
+  return {
+    status: 200,
+    users,
+  };
+};
+
+module.exports = {
+  createUserService,
+  getAllUserService,
+};

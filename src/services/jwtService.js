@@ -1,23 +1,25 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
+const secret = process.env.JWT_SECRET || 'xablau';
+
 const jwtService = {
   createToken: (user) => {
-    const token = jwt.sign({ data: user }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ data: user }, secret, {
       expiresIn: '1h',
       algorithm: 'HS256',
     });
   
   return token;
 },
-  validateToken: (token) => {
+  validateToken: (token, res) => {
     try {
-    const decode = jwt.verify(token, process.env.JWT_SECRET);
-    return decode;
-  } catch (err) {
-    throw new Error('Token inválido');
-    }
-  },
+      const decode = jwt.verify(token, secret);
+      return decode;
+    } catch (error) {
+      res.status(401).json({ message: 'Expired or invalid token' });
+      }
+},
 };
 
 module.exports = jwtService;
