@@ -14,6 +14,16 @@ const createUserService = async (name) => {
   };
 };
 
+const getAllCategoriesService = async () => {
+  const categories = await Category.findAll();
+
+  return {
+    status: 200,
+    categories,
+  };
+};
+
 module.exports = {
   createUserService,
+  getAllCategoriesService,
 };
