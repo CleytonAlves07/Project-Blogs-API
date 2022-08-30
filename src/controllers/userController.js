@@ -1,4 +1,8 @@
-const { createUserService, getAllUserService } = require('../services/userService');
+const {
+    createUserService,
+    getAllUserService,
+    getByIdUserService,
+} = require('../services/userService');
 
 const createUserController = async (req, res) => {
     const { displayName, email, password, image } = req.body;
@@ -14,7 +18,15 @@ const getAllUserController = async (_req, res) => {
     return res.status(status).json(users || { message });
 };
 
+const getByIdUserController = async (req, res) => {
+    const { id } = req.params;
+    const { status, message, user } = await getByIdUserService(id);
+
+    return res.status(status).json(user || { message });
+};
+
 module.exports = {
     createUserController,
     getAllUserController,
+    getByIdUserController,
 };
