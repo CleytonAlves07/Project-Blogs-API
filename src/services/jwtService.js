@@ -20,6 +20,14 @@ const jwtService = {
       res.status(401).json({ message: 'Expired or invalid token' });
       }
 },
+  validateUserPost: (token, res) => {
+    try {
+      const decode = jwt.verify(token, secret);
+      return decode;
+    } catch (error) {
+      res.status(401).json({ message: 'Unauthorized user' });
+    }
+  },
 };
 
 module.exports = jwtService;

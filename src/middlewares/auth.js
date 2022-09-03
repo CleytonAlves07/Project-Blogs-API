@@ -10,5 +10,18 @@ const auth = (req, res, next) => {
   req.user = verify.data;
   next();
 };
+const authPost = (req, res, next) => {
+  const { authorization } = req.headers;
+      if (!authorization) {
+       res.status(401).json({ message: 'Token not found' });
+      }
+  const verify = jwtService.validateUserPost(authorization, res);
+      
+  req.user = verify.data;
+  next();
+};
 
-module.exports = auth;
+module.exports = {
+  auth,
+  authPost,
+};
