@@ -44,8 +44,16 @@ const getByIdUserService = async (id) => {
   };
 };
 
+const deleteUserService = async (id) => {
+  await User.destroy({ where: { id } });
+  return {
+    status: 204,
+  };
+};
+
 module.exports = {
   createUserService,
   getAllUserService,
   getByIdUserService,
+  deleteUserService,
 };

@@ -1,4 +1,5 @@
 const { BlogPost, Category, User } = require('../database/models');
+const verifyPost = require('../middlewares/validatePost');
 
 const getPostService = async () => {
   const posts = await BlogPost.findAll({
@@ -32,15 +33,7 @@ const getByIdPostService = async (id) => {
     post,
   };
 };
-const verifyPost = (title, content) => {
-  if (!title || title.length <= 0 || !content || content.length <= 0) {
-    return {
-      status: 400,
-      message: 'Some required fields are missing',
-    };
-  }
-  return true;
-};
+
 const updatePostService = async (title, content, id, currentUser) => {
   const verify = verifyPost(title, content);
   if (verify.status) return verify;
@@ -66,22 +59,24 @@ const updatePostService = async (title, content, id, currentUser) => {
 
 const deletePostService = async (id, currentUser) => {
   const getIdPost = await BlogPost.findByPk(id);
+  console.log(getIdPost);
   if (!getIdPost) {
     return {
       status: 404,
       message: 'Post does not exist',
   }; 
-}
-  if (currentUser === getIdPost.userId) {
-    await BlogPost.destroy({ where: { id } });
-  
-   return {
-    status: 204,
-   };
   }
-  return {
-    status: 201,
-  };
+  if (currentUser !== getIdPost.userId) {
+    return {
+      status: 401,
+      message: 'Unauthorized user',
+      
+    };
+  }
+    await BlogPost.destroy({ where: { id } });
+    return {
+        status: 204,
+      };
 };
 
 module.exports = {

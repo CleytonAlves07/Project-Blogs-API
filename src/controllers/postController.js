@@ -31,7 +31,7 @@ const deletePostController = async (req, res) => {
   const currentUser = req.user.id;
 
   const { status, message } = await deletePostService(id, currentUser);  
-  return res.status(status).json({ message }).end();
+  return res.status(status).json({ message });
 };
 
 module.exports = {

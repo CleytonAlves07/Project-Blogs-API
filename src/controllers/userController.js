@@ -2,6 +2,7 @@ const {
     createUserService,
     getAllUserService,
     getByIdUserService,
+    deleteUserService,
 } = require('../services/userService');
 
 const createUserController = async (req, res) => {
@@ -25,8 +26,16 @@ const getByIdUserController = async (req, res) => {
     return res.status(status).json(user || { message });
 };
 
+const deleteUserController = async (req, res) => {
+    const { id } = req.user;
+    
+    const { status } = await deleteUserService(id);
+    return res.status(status).end();
+};
+
 module.exports = {
     createUserController,
     getAllUserController,
     getByIdUserController,
+    deleteUserController,
 };
